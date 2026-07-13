@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MakeOn Dividend Income Planner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>MakeOn Dividend Income Planner</h1>
+      <p class="tag">Analyze annual dividend income, monthly cash flow, and reinvestment projections</p>
+    </header>
+
+    <main>
+      <section class="form-section">
+        <h2>Add Holding</h2>
+        <form id="holding-form">
+          <div class="row">
+            <label>Symbol</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="text" id="symbol" required placeholder="e.g. AAPL" />
+              <button type="button" id="browse-symbols">Browse Symbols</button>
+            </div>
+          </div>
+          <div class="row">
+            <label>Shares</label>
+            <input type="number" id="shares" min="0" step="0.0001" required placeholder="e.g. 10" />
+          </div>
+          <div class="row">
+            <label>Price per Share</label>
+            <input type="number" id="price" min="0" step="0.01" required placeholder="e.g. 150" />
+          </div>
+          <div class="row">
+            <label>Dividend Yield (%)</label>
+            <input type="number" id="yield" min="0" step="0.01" required placeholder="e.g. 1.5" />
+          </div>
+          <div class="row">
+            <label>Dividend Frequency</label>
+            <select id="freq">
+              <option value="4">Quarterly</option>
+              <option value="12">Monthly</option>
+              <option value="1">Annually</option>
+              <option value="2">Semi-Annually</option>
+            </select>
+          </div>
+          <div class="row actions">
+            <button type="submit" id="add">Add Holding</button>
+            <button type="button" id="clear">Clear All</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="holdings-section">
+        <h2>Your Holdings</h2>
+        <div id="holdings-list" class="holdings-list"></div>
+      </section>
+
+      <section class="results">
+        <h2>Summary</h2>
+        <div class="summary-grid">
+          <div>Total Portfolio Value:<br/><strong id="total-value">$0.00</strong></div>
+          <div>Annual Dividends:<br/><strong id="annual-dividends">$0.00</strong></div>
+          <div>Monthly Cash Flow:<br/><strong id="monthly-cash">$0.00</strong></div>
+          <div>Projected 5y Value (reinvest):<br/><strong id="proj-5y">$0.00</strong></div>
+        </div>
+
+        <h3>Projection Settings</h3>
+        <div class="proj-row">
+          <label>Reinvestment Rate (%)</label>
+          <input type="number" id="reinvest-rate" min="0" step="0.1" value="100" />
+        </div>
+        <div class="proj-row">
+          <label>Expected CAGR (%)</label>
+          <input type="number" id="cagr" min="-100" step="0.1" value="6" />
+        </div>
+        <div class="proj-row actions">
+          <button id="recalc">Recalculate Projection</button>
+        </div>
+      </section>
+
+      <section class="help">
+        <h2>How it works</h2>
+        <p>Enter holdings including shares, price, and dividend yield. The app computes annual dividends, estimated monthly cash flow based on frequency, and projects future portfolio value assuming dividends are reinvested at a given reinvestment rate and CAGR.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Made with care by MakeOn — Static app ready for Vercel</p>
+    </footer>
+  </div>
+
+  <div id="symbol-browser" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center">
+    <div style="background:#fff;width:90%;max-width:900px;padding:16px;border-radius:10px;max-height:80%;overflow:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 style="margin:0">All Exchange Symbols</h3>
+        <div><input id="sb-filter" placeholder="Filter by symbol or name" style="padding:6px;border-radius:6px;border:1px solid #ddd" /> <button id="sb-close">Close</button></div>
+      </div>
+      <div id="sb-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
